@@ -54,3 +54,9 @@ docs/_build/
 
 #
 *~
+.gradle
+/local.properties
+/.idea/workspace.xml
+.DS_Store
+.idea/
+*.iml
