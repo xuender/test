@@ -1,6 +1,9 @@
 package me.xuender.itest;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,10 +19,11 @@ import me.xuender.itest.model.ITest;
 import me.xuender.itest.model.Question;
 
 /**
- * 测试
+ * 测试页面
  * Created by ender on 14-4-5.
  */
 public class TestActivity extends Activity {
+    public static final int RESULT_CODE = 1;
     private ITest test;
     private TextView title;
     private TextView context;
@@ -29,6 +33,7 @@ public class TestActivity extends Activity {
     private Button close;
     private int questionNum = 0;
     private AnswerAdapter answerAdapter;
+    private int conclusionNum;
 
 
     @Override
@@ -36,8 +41,7 @@ public class TestActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Bundle bundle = this.getIntent().getExtras();
-        int num = bundle.getInt("num");
-        test = TestListActivity.tests.get(num);
+        test = (ITest) bundle.getSerializable("test");
 
         this.setTitle(test.getTitle());
         title = (TextView) findViewById(R.id.title);
@@ -78,6 +82,7 @@ public class TestActivity extends Activity {
         readItem(test);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void readItem(AbstractItem item) {
         Log.d("readItem", item.getTitle());
         title.setText(item.getTitle());
@@ -101,11 +106,16 @@ public class TestActivity extends Activity {
         if (item instanceof Conclusion) {
             context.setVisibility(View.VISIBLE);
             close.setVisibility(View.VISIBLE);
+            conclusionNum = item.getNum();
         }
     }
 
     private void end() {
-        this.setResult(RESULT_OK, this.getIntent().putExtra("end", true));//给上一个Activity返回结果
+        Log.d("end", test.getNum() + "");
+        Intent intent = this.getIntent();
+        intent.putExtra("conclusion", conclusionNum);
+        intent.putExtra("test", test);
+        this.setResult(RESULT_CODE, intent);//给上一个Activity返回结果
         this.finish();
     }
 }

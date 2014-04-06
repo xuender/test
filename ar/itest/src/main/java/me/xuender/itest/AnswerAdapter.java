@@ -13,6 +13,7 @@ import java.util.List;
 import me.xuender.itest.model.Answer;
 
 /**
+ * 答案适配器
  * Created by ender on 14-4-5.
  */
 public class AnswerAdapter extends ArrayAdapter<Answer> {

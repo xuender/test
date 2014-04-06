@@ -1,4 +1,4 @@
-package me.xuender.itest;
+package me.xuender.itest.fragment;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import me.xuender.itest.R;
 import me.xuender.itest.model.ITest;
 
 /**

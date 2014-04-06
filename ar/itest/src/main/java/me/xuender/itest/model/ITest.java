@@ -1,16 +1,22 @@
 package me.xuender.itest.model;
 
+import android.content.res.AssetManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 测试
  * Created by ender on 14-4-5.
  */
 public class ITest extends AbstractItem {
+    public static List<ITest> tests;
     private String[] tags;
     private List<Question> questions = new ArrayList<Question>();
     private List<Conclusion> conclusions = new ArrayList<Conclusion>();
@@ -37,6 +43,19 @@ public class ITest extends AbstractItem {
                 questions.add(new Question(qs.getJSONObject(i), this));
             }
         }
+    }
+
+    public static ITest findTest(List<ITest> tests, int num) {
+        for (ITest it : tests) {
+            if (it.getNum() == num) {
+                return it;
+            }
+        }
+        return tests.get(0);
+    }
+
+    public static ITest findTest(int num) {
+        return findTest(tests, num);
     }
 
     /**

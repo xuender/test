@@ -3,11 +3,13 @@ package me.xuender.itest.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * 抽象条目
  * Created by ender on 14-4-5.
  */
-public abstract class AbstractItem {
+public abstract class AbstractItem implements Serializable {
     private int num;
     private String title;
     private String context;
