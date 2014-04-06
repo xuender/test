@@ -3,6 +3,7 @@ package me.xuender.itest;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -52,10 +53,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.show(bi.getFragment());
         bi.getText().setTextAppearance(this, R.style.SelectedText);
+        bi.getLayout().setBackgroundColor(Color.TRANSPARENT);
         for (ButtonItem item : buttons) {
             if (item != bi) {
                 transaction.hide(item.getFragment());
                 item.getText().setTextAppearance(this, R.style.UnSelectedText);
+                item.getLayout().setBackgroundColor(R.color.button);
             }
         }
         transaction.commit();

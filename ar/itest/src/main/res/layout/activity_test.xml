@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    style="@style/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="0">
 
 
     <TextView
         android:id="@+id/title"
+        style="@style/testTitle"
         android:layout_width="match_parent"
-        android:layout_height="57dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
-        android:layout_weight="0.10"
+        android:layout_weight="4"
         android:gravity="center_vertical|center_horizontal"
         android:text="Title"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -20,10 +24,11 @@
 
     <TextView
         android:id="@+id/context"
+        style="@style/testContext"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
-        android:layout_weight="0.7"
+        android:layout_weight="13"
 
         android:text="Context"
         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -31,15 +36,16 @@
     <ListView
         android:id="@+id/answers"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="0.7" />
+        android:layout_height="wrap_content"
+        android:layout_weight="13" />
 
     <TextView
         android:id="@+id/summary"
+        style="@style/testSummary"
         android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:layout_weight="0.1"
-        android:text="summay"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="summary"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
@@ -47,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_weight="0.1"
+        android:layout_weight="2"
         android:text="测试开始" />
 
     <Button
@@ -55,7 +61,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_weight="0.1"
+        android:layout_weight="2"
         android:text="返回" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        ads:adSize="BANNER"
+        ads:adUnitId="a150e6df0f5ac94" />
 
 </LinearLayout>

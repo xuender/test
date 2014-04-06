@@ -33,6 +33,8 @@ public class AnswerAdapter extends ArrayAdapter<Answer> {
         }
         TextView title = (TextView) convertView.findViewById(R.id.title);
         title.setText(answer.getTitle());
+        TextView summary = (TextView) convertView.findViewById(R.id.summary);
+        summary.setText(answer.getSummary());
         Log.d("问题", answer.getTitle());
         return convertView;
     }

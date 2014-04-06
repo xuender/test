@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import me.xuender.itest.model.AbstractItem;
 import me.xuender.itest.model.Answer;
 import me.xuender.itest.model.Conclusion;
@@ -34,22 +37,21 @@ public class TestActivity extends Activity {
     private int questionNum = 0;
     private AnswerAdapter answerAdapter;
     private int conclusionNum;
+    private AdView adView;
+    private AdRequest request;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        Bundle bundle = this.getIntent().getExtras();
-        test = (ITest) bundle.getSerializable("test");
+        init();
+        initListener();
+        readItem(test);
+    }
 
-        this.setTitle(test.getTitle());
-        title = (TextView) findViewById(R.id.title);
-        context = (TextView) findViewById(R.id.context);
-        summary = (TextView) findViewById(R.id.summary);
-        answers = (ListView) findViewById(R.id.answers);
+    private void initListener() {
         answers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Answer answer = answerAdapter.getItem(position);
@@ -62,7 +64,6 @@ public class TestActivity extends Activity {
                 }
             }
         });
-        run = (Button) findViewById(R.id.run);
         run.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,16 +71,36 @@ public class TestActivity extends Activity {
                 readItem(question);
             }
         });
-        close = (Button) findViewById(R.id.close);
         close.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 end();
             }
         });
+    }
+
+    private void init() {
+        Bundle bundle = this.getIntent().getExtras();
+        test = (ITest) bundle.getSerializable("test");
+        title = (TextView) findViewById(R.id.title);
+        context = (TextView) findViewById(R.id.context);
+        summary = (TextView) findViewById(R.id.summary);
+        answers = (ListView) findViewById(R.id.answers);
+        adView = (AdView) findViewById(R.id.adView);
+        run = (Button) findViewById(R.id.run);
+        close = (Button) findViewById(R.id.close);
         answerAdapter = new AnswerAdapter(this);
         answers.setAdapter(answerAdapter);
-        readItem(test);
+        this.setTitle(test.getTitle());
+    }
+
+    private void loadAd() {
+        if (request == null) {
+            request = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+                    .build();
+            adView.loadAd(request);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -92,16 +113,19 @@ public class TestActivity extends Activity {
         answers.setVisibility(View.GONE);
         run.setVisibility(View.GONE);
         close.setVisibility(View.GONE);
+        adView.setVisibility(View.GONE);
         if (item instanceof ITest) {
             context.setVisibility(View.VISIBLE);
             run.setVisibility(View.VISIBLE);
         }
         if (item instanceof Question) {
             Question question = (Question) item;
+            adView.setVisibility(View.VISIBLE);
             answers.setVisibility(View.VISIBLE);
             answerAdapter.clear();
             answerAdapter.addAll(question.getAnswers());
             Log.d("答案数量", String.valueOf(answerAdapter.getCount()));
+            loadAd();
         }
         if (item instanceof Conclusion) {
             context.setVisibility(View.VISIBLE);

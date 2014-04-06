@@ -5,13 +5,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="1">
+    <!--android:background="@color/list"-->
 
     <TextView
         android:id="@+id/title"
+        style="@style/testTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ff0000"
-        android:textSize="22px"
-        android:layout_weight="0.12" />
+        android:text="title" />
 
 </LinearLayout>
