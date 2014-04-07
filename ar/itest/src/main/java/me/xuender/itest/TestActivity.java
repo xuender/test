@@ -83,7 +83,7 @@ public class TestActivity extends Activity {
         Bundle bundle = this.getIntent().getExtras();
         test = (ITest) bundle.getSerializable("test");
         title = (TextView) findViewById(R.id.title);
-        context = (TextView) findViewById(R.id.context);
+        context = (TextView) findViewById(R.id.content);
         summary = (TextView) findViewById(R.id.summary);
         answers = (ListView) findViewById(R.id.answers);
         adView = (AdView) findViewById(R.id.adView);
@@ -107,7 +107,7 @@ public class TestActivity extends Activity {
     private void readItem(AbstractItem item) {
         Log.d("readItem", item.getTitle());
         title.setText(item.getTitle());
-        context.setText(item.getContext());
+        context.setText(item.getContent());
         summary.setText(item.getSummary());
         context.setVisibility(View.GONE);
         answers.setVisibility(View.GONE);

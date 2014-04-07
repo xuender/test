@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/conclusion"
-        style="@style/testContext"
+        style="@style/testContent"
         android:layout_width="fill_parent"
         android:layout_height="match_parent" />
 

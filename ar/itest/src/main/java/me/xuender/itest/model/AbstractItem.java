@@ -12,7 +12,7 @@ import java.io.Serializable;
 public abstract class AbstractItem implements Serializable {
     private int num;
     private String title;
-    private String context;
+    private String content;
     private String summary;
     private ITest test;
 
@@ -23,8 +23,8 @@ public abstract class AbstractItem implements Serializable {
         if (obj.has("title")) {
             setTitle(obj.getString("title"));
         }
-        if (obj.has("context")) {
-            setContext(obj.getString("context"));
+        if (obj.has("content")) {
+            setContent(obj.getString("content"));
         }
         if (obj.has("summary")) {
             setSummary(obj.getString("summary"));
@@ -60,12 +60,12 @@ public abstract class AbstractItem implements Serializable {
         this.title = title;
     }
 
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
-    public void setContext(String context) {
-        this.context = context;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getSummary() {

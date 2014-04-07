@@ -23,8 +23,8 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/context"
-        style="@style/testContext"
+        android:id="@+id/content"
+        style="@style/testContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
