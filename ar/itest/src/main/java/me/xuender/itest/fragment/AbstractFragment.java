@@ -27,7 +27,6 @@ import me.xuender.itest.model.ITest;
 public abstract class AbstractFragment extends Fragment
         implements AdapterView.OnItemClickListener {
     private ListView listView;
-    private static HistoryFragment historyFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,9 +36,6 @@ public abstract class AbstractFragment extends Fragment
         listView = (ListView) listLayout.findViewById(R.id.list);
         listView.setAdapter(getAdapter(listView.getContext()));
         listView.setOnItemClickListener(this);
-        if (historyFragment == null && this instanceof HistoryFragment) {
-            historyFragment = (HistoryFragment) this;
-        }
         return listLayout;
     }
 
@@ -51,8 +47,8 @@ public abstract class AbstractFragment extends Fragment
             case TestActivity.RESULT_CODE:
                 Bundle bundle = data.getExtras();//取得来自B页面的数据，并显示到画面
                 int conclusion = bundle.getInt("conclusion");
-                ITest test = (ITest)bundle.getSerializable("test");
-                historyFragment.add(test, conclusion);
+                ITest test = (ITest) bundle.getSerializable("test");
+                ((OnHistory) getActivity()).add(test, conclusion);
                 Log.d("测试", String.valueOf(test));
                 Log.d("测试完成", String.valueOf(conclusion));
                 Log.d("count:", "" + listView.getAdapter().getCount());

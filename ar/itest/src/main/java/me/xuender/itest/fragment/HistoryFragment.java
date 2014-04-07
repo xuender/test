@@ -26,7 +26,7 @@ import me.xuender.itest.model.ITest;
  * Created by ender on 14-4-6.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class HistoryFragment extends AbstractFragment {
+public class HistoryFragment extends AbstractFragment implements OnHistory {
     private List<History> histories = new ArrayList<History>();
     private HistoryAdapter historyAdapter;
     private SharedPreferences testSp;
@@ -51,8 +51,19 @@ public class HistoryFragment extends AbstractFragment {
         return historyAdapter;
     }
 
+    @Override
+    public void clean() {
+        histories.clear();
+        saveHistory();
+    }
+
+    @Override
     public void add(ITest test, int conclusion) {
         historyAdapter.insert(new History(test, conclusion), 0);
+        saveHistory();
+    }
+
+    private void saveHistory() {
         SharedPreferences.Editor editor = testSp.edit();
         JSONArray ja = new JSONArray();
         try {

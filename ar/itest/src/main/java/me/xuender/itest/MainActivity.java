@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xuender.itest.fragment.HistoryFragment;
+import me.xuender.itest.fragment.OnHistory;
 import me.xuender.itest.fragment.SettingFragment;
 import me.xuender.itest.fragment.TestListFragment;
+import me.xuender.itest.model.ITest;
 
 /**
  * 测试主界面
  */
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener, OnHistory {
     private FragmentManager fragmentManager;
     private List<ButtonItem> buttons = new ArrayList<ButtonItem>();
 
@@ -71,5 +74,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 setTabSelection(bi);
             }
         }
+    }
+
+    private HistoryFragment findHistoryFragment() {
+        for (ButtonItem bi : buttons) {
+            if (bi.getFragment() instanceof HistoryFragment) {
+                return (HistoryFragment) bi.getFragment();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void clean() {
+        findHistoryFragment().clean();
+    }
+
+    @Override
+    public void add(ITest test, int conclusion) {
+        findHistoryFragment().add(test, conclusion);
     }
 }

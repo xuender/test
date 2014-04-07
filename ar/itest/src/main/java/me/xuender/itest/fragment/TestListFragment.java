@@ -27,6 +27,7 @@ import me.xuender.itest.model.ITest;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TestListFragment extends AbstractFragment {
+
     public List<ITest> tests;
 
     public ITest findTest(int num) {

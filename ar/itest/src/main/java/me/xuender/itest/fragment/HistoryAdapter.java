@@ -20,6 +20,7 @@ import me.xuender.itest.model.ITest;
  * Created by ender on 14-4-5.
  */
 public class HistoryAdapter extends ArrayAdapter<History> {
+
     public HistoryAdapter(Context context, List<History> histories) {
         super(context, R.layout.test_list, histories);
     }
