@@ -8,7 +8,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +33,7 @@ public class HistoryFragment extends AbstractFragment implements OnHistory {
     private SharedPreferences testSp;
 
     @Override
-    protected ListAdapter getAdapter(Context context) {
+    protected ArrayAdapter getAdapter(Context context) {
         if (historyAdapter == null) {
             testSp = context.getSharedPreferences("test", Context.MODE_PRIVATE);
             String json = testSp.getString("histories", "[]");
@@ -55,6 +56,8 @@ public class HistoryFragment extends AbstractFragment implements OnHistory {
     public void clean() {
         histories.clear();
         saveHistory();
+        Toast.makeText(getActivity(), "测试记录已经被清空.",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

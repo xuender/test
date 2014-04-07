@@ -38,6 +38,7 @@
     <!-- http://www.peise.net/tools/web/ -->
     <!-- 上右下 -->
     <color name="title">#5D016D</color>
+    <color name="titleOff">#ffb0b3a5</color>
     <color name="content">#000000</color>
     <!-- 上左下 -->
     <color name="summary">#C262D3</color>

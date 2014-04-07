@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -39,7 +40,7 @@ public abstract class AbstractFragment extends Fragment
         return listLayout;
     }
 
-    protected abstract ListAdapter getAdapter(Context context);
+    protected abstract ArrayAdapter getAdapter(Context context);
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -52,6 +53,12 @@ public abstract class AbstractFragment extends Fragment
                 Log.d("测试", String.valueOf(test));
                 Log.d("测试完成", String.valueOf(conclusion));
                 Log.d("count:", "" + listView.getAdapter().getCount());
+                reset();
+
         }
+    }
+
+    public void reset() {
+        listView.invalidateViews();
     }
 }

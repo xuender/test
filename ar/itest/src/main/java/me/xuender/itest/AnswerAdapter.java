@@ -29,7 +29,7 @@ public class AnswerAdapter extends ArrayAdapter<Answer> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Answer answer = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.test_list, null);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.answer_list, null);
         }
         TextView title = (TextView) convertView.findViewById(R.id.title);
         title.setText(answer.getTitle());

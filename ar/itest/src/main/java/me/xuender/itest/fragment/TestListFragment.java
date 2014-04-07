@@ -8,7 +8,8 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class TestListFragment extends AbstractFragment {
     }
 
     @Override
-    protected ListAdapter getAdapter(Context context) {
+    protected ArrayAdapter getAdapter(Context context) {
         initTests(context.getAssets());
         return new TestListAdapter(context, tests);
     }
@@ -65,10 +66,15 @@ public class TestListFragment extends AbstractFragment {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ITest test = tests.get(position);
-        Log.d("打开测试", test.getTitle());
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), TestActivity.class);
-        intent.putExtra("test", test);
-        startActivityForResult(intent, TestActivity.RESULT_CODE);
+        if (((OnStar) getActivity()).star() >= test.getStar()) {
+            Log.d("打开测试", test.getTitle());
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), TestActivity.class);
+            intent.putExtra("test", test);
+            startActivityForResult(intent, TestActivity.RESULT_CODE);
+        } else {
+            Toast.makeText(getActivity(), "星星数量不够，不能测试",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
