@@ -20,9 +20,24 @@ public class ITest extends AbstractItem {
     private String[] tags;
     private List<Question> questions = new ArrayList<Question>();
     private List<Conclusion> conclusions = new ArrayList<Conclusion>();
+    private TestType type;
+    private int star = 0;
 
     public ITest(JSONObject obj) throws JSONException {
         super(obj);
+        if (obj.has("type")) {
+            for (TestType tt : TestType.values()) {
+                if (tt.name().equalsIgnoreCase(obj.getString("type"))) {
+                    type = tt;
+                }
+            }
+        }
+        if (obj.has("star")) {
+            star = obj.getInt("star");
+        }
+        if (type == null) {
+            type = TestType.JUMP;
+        }
         if (obj.has("tags")) {
             JSONArray tag = obj.getJSONArray("tags");
             List<String> ts = new ArrayList<String>();
@@ -86,6 +101,22 @@ public class ITest extends AbstractItem {
             }
         }
         return conclusions.get(0);
+    }
+
+    public TestType getType() {
+        return type;
+    }
+
+    public void setType(TestType type) {
+        this.type = type;
+    }
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 
     public String[] getTags() {

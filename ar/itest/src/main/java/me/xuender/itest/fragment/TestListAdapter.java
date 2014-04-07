@@ -29,9 +29,9 @@ public class TestListAdapter extends ArrayAdapter<ITest> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.test_list, null);
         }
         TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView summary = (TextView) convertView.findViewById(R.id.summary);
+        TextView star = (TextView) convertView.findViewById(R.id.star);
         title.setText(test.getTitle());
-        summary.setText(test.getSummary());
+        star.setText(String.valueOf(test.getStar()));
         Log.d("测试", test.getTitle());
         return convertView;
     }
