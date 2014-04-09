@@ -1,6 +1,6 @@
 package me.xuender.itest;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,40 +10,12 @@ import android.widget.TextView;
  * Created by ender on 14-4-6.
  */
 public class ButtonItem {
-    private ImageView image;
-    private TextView text;
-    private View layout;
     private Fragment fragment;
+    private String title;
 
-    public ButtonItem(Fragment fragment, View layout, ImageView image, TextView text) {
+    public ButtonItem(Fragment fragment, String title) {
         this.fragment = fragment;
-        this.layout = layout;
-        this.image = image;
-        this.text = text;
-    }
-
-    public ImageView getImage() {
-        return image;
-    }
-
-    public void setImage(ImageView image) {
-        this.image = image;
-    }
-
-    public TextView getText() {
-        return text;
-    }
-
-    public void setText(TextView text) {
-        this.text = text;
-    }
-
-    public View getLayout() {
-        return layout;
-    }
-
-    public void setLayout(View layout) {
-        this.layout = layout;
+        this.title = title;
     }
 
     public Fragment getFragment() {
@@ -52,5 +24,13 @@ public class ButtonItem {
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
