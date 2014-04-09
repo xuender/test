@@ -36,7 +36,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         TextView createAt = (TextView) convertView.findViewById(R.id.createAt);
         title.setText(history.getTest().getTitle());
         conclusion.setText(history.getConclusion().getTitle());
-        createAt.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(history.getCreateAt()));
+        createAt.setText(new SimpleDateFormat("MM-dd HH:mm").format(history.getCreateAt()));
         return convertView;
     }
 }

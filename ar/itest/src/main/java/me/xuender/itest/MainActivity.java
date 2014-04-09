@@ -6,8 +6,11 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +44,8 @@ public class MainActivity extends FragmentActivity
     private SharedPreferences testSp;
     private Set<Integer> stars = new HashSet<Integer>();
     private TextView starView;
+    private SoundPool soundPool;
+    SharedPreferences prefs;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -51,6 +56,9 @@ public class MainActivity extends FragmentActivity
         readTestNums();
         starView = (TextView) findViewById(R.id.star);
         starView.setText(String.valueOf(stars.size()));
+        soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
+        soundPool.load(this, R.raw.star, 1);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         buttons.add(new ButtonItem(new TestListFragment(), findViewById(R.id.layout_test),
                 (ImageView) findViewById(R.id.img_test), (TextView) findViewById(R.id.text_test)));
@@ -137,6 +145,9 @@ public class MainActivity extends FragmentActivity
             editor.commit();
             starView.setText(String.valueOf(stars.size()));
             Toast.makeText(this, "获得一个星星", Toast.LENGTH_SHORT).show();
+            if (prefs.getBoolean("sound", true)) {
+                soundPool.play(1, 1, 1, 0, 0, 1);
+            }
         }
     }
 

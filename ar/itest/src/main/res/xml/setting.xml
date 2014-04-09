@@ -7,11 +7,13 @@
         android:title="清空记录" />
     <Preference
         android:key="star"
-        android:summary="重置星星"
+        android:summary="重置星星数量"
         android:title="星星数量清零" />
-    <!--<SwitchPreference-->
-    <!--android:switchTextOn="打开" android:switchTextOff="静音"-->
-    <!--android:title="声音">-->
-
-    <!--</SwitchPreference>-->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound"
+        android:summary="声音播放状态"
+        android:switchTextOff="静音"
+        android:switchTextOn="打开"
+        android:title="音效" />
 </PreferenceScreen>
