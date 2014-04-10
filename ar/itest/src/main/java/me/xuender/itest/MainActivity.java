@@ -2,21 +2,19 @@ package me.xuender.itest;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +26,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import me.xuender.itest.fragment.AbstractFragment;
 import me.xuender.itest.fragment.HistoryFragment;
 import me.xuender.itest.fragment.OnHistory;
 import me.xuender.itest.fragment.OnStar;
+import me.xuender.itest.fragment.SettingActivity;
 import me.xuender.itest.fragment.TestListFragment;
 import me.xuender.itest.model.ITest;
 
@@ -39,66 +39,73 @@ import me.xuender.itest.model.ITest;
  */
 public class MainActivity extends ActionBarActivity
         implements OnHistory, OnStar, ActionBar.TabListener {
-    //    private FragmentManager fragmentManager;
     private List<ButtonItem> buttons = new ArrayList<ButtonItem>();
     private SharedPreferences testSp;
     private Set<Integer> stars = new HashSet<Integer>();
     private TextView starView;
     private SoundPool soundPool;
     private SharedPreferences prefs;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private PagerAdapter pagerAdapter;
+    private ViewPager viewPager;
+    private ActionBar actionBar;
 
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        testSp = this.getSharedPreferences("test", Context.MODE_PRIVATE);
-        readTestNums();
-        getActionBar().show();
+        数据初始化();
         starView = (TextView) findViewById(R.id.star);
         starView.setText(String.valueOf(stars.size()));
+        声音初始化();
+        滑动初始化();
+        actionBar.setDisplayShowTitleEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent();
+        intent.setClass(this, SettingActivity.class);
+        startActivity(intent);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void 数据初始化() {
+        testSp = this.getSharedPreferences("test", Context.MODE_PRIVATE);
+        readTestNums();
+        buttons.add(new ButtonItem(new TestListFragment(), "测试"));
+        buttons.add(new ButtonItem(new HistoryFragment(), "记录"));
+    }
+
+    private void 声音初始化() {
         soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
         soundPool.load(this, R.raw.star, 1);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        buttons.add(new ButtonItem(new TestListFragment(), "测试"));
-        buttons.add(new ButtonItem(new HistoryFragment(), "记录"));
-//        buttons.add(new ButtonItem(new SettingFragment(), findViewById(R.id.layout_setting),
-//                (ImageView) findViewById(R.id.img_setting), (TextView) findViewById(R.id.text_setting)));
-//
-//        fragmentManager = getFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        for (ButtonItem bi : buttons) {
-//            transaction.add(R.id.content, bi.getFragment());
-//            bi.getLayout().setOnClickListener(this);
-//        }
-//        transaction.commit();
-//        setTabSelection(buttons.get(0));
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void 滑动初始化() {
+        getActionBar().show();
+        actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), buttons);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
             }
         });
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this)
-            );
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            actionBar.addTab(actionBar.newTab()
+                    .setText(pagerAdapter.getPageTitle(i))
+                    .setTabListener(this));
         }
     }
 
@@ -114,7 +121,6 @@ public class MainActivity extends ActionBarActivity
         }
 
     }
-
 
     private HistoryFragment findHistoryFragment() {
         for (ButtonItem bi : buttons) {
@@ -174,16 +180,16 @@ public class MainActivity extends ActionBarActivity
         editor.commit();
         starView.setText(String.valueOf(stars.size()));
         Toast.makeText(this, "星星数量清零", Toast.LENGTH_SHORT).show();
-//        for (ButtonItem bi : buttons) {
-//            if (bi.getFragment() instanceof TestListFragment) {
-//                ((AbstractFragment) bi.getFragment()).reset();
-//            }
-//        }
+        for (ButtonItem bi : buttons) {
+            if (bi.getFragment() instanceof TestListFragment) {
+                ((AbstractFragment) bi.getFragment()).reset();
+            }
+        }
     }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
-        mViewPager.setCurrentItem(tab.getPosition());
+        viewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
@@ -194,28 +200,5 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
 
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(android.support.v4.app.FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return buttons.get(position).getFragment();
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return buttons.get(position).getTitle();
-        }
     }
 }
