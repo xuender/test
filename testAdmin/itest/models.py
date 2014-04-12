@@ -15,7 +15,7 @@ class Item(BaseModel):
             max_length=250,
             verbose_name='标题',
             )
-    summary = models.CharField(
+    summary = models.TextField(
             blank=True, null=True,
             max_length=450,
             verbose_name='摘要',

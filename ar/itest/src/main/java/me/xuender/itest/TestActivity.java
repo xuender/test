@@ -115,8 +115,8 @@ public class TestActivity extends Activity {
 
     private void loadAd() {
         if (request == null) {
-            request = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+            request = new AdRequest.Builder().addKeyword("爱情").addKeyword("礼物").addKeyword("裙子")
+                    .addKeyword("鞋子").setGender(AdRequest.GENDER_FEMALE)
                     .build();
             adView.loadAd(request);
         }

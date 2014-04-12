@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.xuender.itest.model.Answer;
+import me.xuender.utils.StringUtils;
 
 /**
  * 答案适配器
@@ -34,6 +35,11 @@ public class AnswerAdapter extends ArrayAdapter<Answer> {
         TextView title = (TextView) convertView.findViewById(R.id.title);
         title.setText(answer.getTitle());
         TextView summary = (TextView) convertView.findViewById(R.id.summary);
+        if (StringUtils.isEmpty(answer.getSummary())) {
+            summary.setVisibility(View.GONE);
+        } else {
+            summary.setVisibility(View.VISIBLE);
+        }
         summary.setText(answer.getSummary());
         Log.d("问题", answer.getTitle());
         return convertView;

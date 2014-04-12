@@ -100,8 +100,8 @@ public class MainActivity extends ActionBarActivity
     private void 数据初始化() {
         testSp = this.getSharedPreferences("test", Context.MODE_PRIVATE);
         readTestNums();
-        buttons.add(new ButtonItem(new TestListFragment(), "测试"));
-        buttons.add(new ButtonItem(new HistoryFragment(), "记录"));
+        buttons.add(new ButtonItem(new TestListFragment(), getResources().getString(R.string.test)));
+        buttons.add(new ButtonItem(new HistoryFragment(), getResources().getString(R.string.history)));
     }
 
     private void 声音初始化() {
