@@ -116,7 +116,7 @@ public class TestActivity extends Activity {
     private void loadAd() {
         if (request == null) {
             request = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)        // All emulators
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .build();
             adView.loadAd(request);
         }

@@ -31,7 +31,7 @@ class TestAdmin(BaseAdmin):
     search_fields = ['title']
     date_hierarchy = 'create_at'
     list_filter = ['star', ]
-    list_display = ('title', 'num', 'star', 'create_at')
+    list_display = ('title', 'summary', 'num', 'star', 'create_at')
     readonly_fields = ('create_at', )
     fieldsets = [
         (

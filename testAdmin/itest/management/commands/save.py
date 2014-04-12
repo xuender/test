@@ -65,7 +65,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         log.debug('start')
         if len(args) == 0:
-            log.info('缺少JSON文件，无法保存')
+            self.save('../ar/itest/src/main/assets/tests.json')
             return
         f = args[0]
         log.debug('save: %s' % f)
