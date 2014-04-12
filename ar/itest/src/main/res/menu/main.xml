@@ -12,6 +12,6 @@
         android:id="@+id/setting"
         android:icon="@android:drawable/ic_menu_manage"
         android:orderInCategory="100"
-        android:title="设置"
+        android:title="@string/setting"
         app:showAsAction="ifRoom|withText" />
 </menu>

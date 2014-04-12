@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -50,6 +52,18 @@ public class TestActivity extends Activity {
         readItem(test);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
+
     private void initListener() {
         answers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,6 +76,11 @@ public class TestActivity extends Activity {
                 if (answer.getConclusion() != null) {
                     readItem(answer.getConclusion());
                 }
+                EasyTracker.getInstance(view.getContext()).send(
+                        MapBuilder.createEvent("answer", answer.getTest().getTitle(),
+                                answer.getTitle(), null).build()
+                );
+
             }
         });
         run.setOnClickListener(new Button.OnClickListener() {
@@ -139,6 +158,8 @@ public class TestActivity extends Activity {
         Intent intent = this.getIntent();
         intent.putExtra("conclusion", conclusionNum);
         intent.putExtra("test", test);
+        EasyTracker.getInstance(this).send(
+                MapBuilder.createEvent("test", "on", "end", null).build());
         this.setResult(RESULT_CODE, intent);//给上一个Activity返回结果
         this.finish();
     }

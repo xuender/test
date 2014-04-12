@@ -5,27 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
 
-import java.io.IOException;
+import org.json.JSONArray;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xuender.itest.R;
 import me.xuender.itest.TestActivity;
 import me.xuender.itest.model.ITest;
 
@@ -62,10 +57,11 @@ public class TestListFragment extends AbstractFragment {
                     tests.add(new ITest(array.getJSONObject(i)));
                 }
                 ITest.tests = tests;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                EasyTracker.getInstance(getActivity())
+                        .send(MapBuilder.createException(new StandardExceptionParser(getActivity(), null)
+                                .getDescription(Thread.currentThread().getName(), e), false)
+                                .build());
             }
         }
     }
@@ -80,10 +76,15 @@ public class TestListFragment extends AbstractFragment {
             intent.setClass(getActivity(), TestActivity.class);
             intent.putExtra("test", test);
             startActivityForResult(intent, TestActivity.RESULT_CODE);
+            EasyTracker.getInstance(getActivity()).send(
+                    MapBuilder.createEvent("list", "test", test.getTitle(), null).build());
         } else {
-            Toast.makeText(getActivity(), "需要 " + test.getStar() + " 颗星，只有 "
-                            + onStar.star() + " 颗，数量不够，不能测试",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "需要 " + test.getStar() + " 星,只有 "
+                            + onStar.star() + " 星，数量不够不能测试",
+                    Toast.LENGTH_SHORT
+            ).show();
+            EasyTracker.getInstance(getActivity()).send(
+                    MapBuilder.createEvent("list", "no_test", test.getTitle(), null).build());
         }
     }
 }

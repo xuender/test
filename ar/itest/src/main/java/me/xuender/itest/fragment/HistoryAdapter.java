@@ -1,7 +1,6 @@
 package me.xuender.itest.fragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import me.xuender.itest.R;
 import me.xuender.itest.model.History;
-import me.xuender.itest.model.ITest;
 
 /**
  * 测试历史适配器

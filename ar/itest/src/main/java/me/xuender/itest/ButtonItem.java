@@ -1,9 +1,6 @@
 package me.xuender.itest;
 
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * 按钮相关对象

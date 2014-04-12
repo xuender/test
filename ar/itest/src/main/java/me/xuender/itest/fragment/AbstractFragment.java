@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import me.xuender.itest.R;
 import me.xuender.itest.TestActivity;
-import me.xuender.itest.model.History;
 import me.xuender.itest.model.ITest;
 
 /**

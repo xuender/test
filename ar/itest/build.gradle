@@ -22,5 +22,6 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.google.android.gms:play-services:+'
+//    compile 'com.google.apis:google-api-services-analytics:v3-rev88-1.18.0-rc'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

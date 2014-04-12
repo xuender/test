@@ -14,10 +14,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,11 +57,21 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         数据初始化();
-//TODO        starView = (TextView) findViewById(R.id.star);
-//        starView.setText(String.valueOf(stars.size()));
         声音初始化();
         滑动初始化();
         actionBar.setDisplayShowTitleEnabled(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
@@ -126,8 +138,15 @@ public class MainActivity extends ActionBarActivity
             for (int i = 0; i < ja.length(); i++) {
                 stars.add(ja.getInt(i));
             }
+            EasyTracker.getInstance(this).send(
+                    MapBuilder.createEvent("list", "star", "num", Long.valueOf(stars.size()))
+                            .build()
+            );
         } catch (JSONException e) {
-            e.printStackTrace();
+            EasyTracker.getInstance(this)
+                    .send(MapBuilder.createException(new StandardExceptionParser(this, null)
+                            .getDescription(Thread.currentThread().getName(), e), false)
+                            .build());
         }
 
     }
@@ -144,6 +163,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void clean() {
         findHistoryFragment().clean();
+        EasyTracker.getInstance(this).send(
+                MapBuilder.createEvent("setting", "on", "clean", null).build());
     }
 
     @Override
@@ -184,6 +205,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void zero() {
+        int count = stars.size();
         stars.clear();
         SharedPreferences.Editor editor = testSp.edit();
         editor.putString("testNums", "[]");
@@ -195,6 +217,8 @@ public class MainActivity extends ActionBarActivity
                 ((AbstractFragment) bi.getFragment()).reset();
             }
         }
+        EasyTracker.getInstance(this).send(
+                MapBuilder.createEvent("setting", "on", "zero", Long.valueOf(count)).build());
     }
 
     @Override

@@ -1,10 +1,6 @@
 package me.xuender.itest.model;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 测试历史

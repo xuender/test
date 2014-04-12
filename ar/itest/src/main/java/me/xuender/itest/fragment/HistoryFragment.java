@@ -11,6 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +49,10 @@ public class HistoryFragment extends AbstractFragment implements OnHistory {
                     histories.add(new History(jo.getInt("test"), jo.getInt("conclusion")));
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                EasyTracker.getInstance(getActivity())
+                        .send(MapBuilder.createException(new StandardExceptionParser(getActivity(), null)
+                                .getDescription(Thread.currentThread().getName(), e), false)
+                                .build());
             }
             historyAdapter = new HistoryAdapter(context, histories);
         }
@@ -77,7 +84,10 @@ public class HistoryFragment extends AbstractFragment implements OnHistory {
                 ja.put(jo);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            EasyTracker.getInstance(getActivity())
+                    .send(MapBuilder.createException(new StandardExceptionParser(getActivity(), null)
+                            .getDescription(Thread.currentThread().getName(), e), false)
+                            .build());
         }
         Log.d("保存", ja.toString());
         editor.putString("histories", ja.toString());
@@ -92,5 +102,7 @@ public class HistoryFragment extends AbstractFragment implements OnHistory {
         intent.setClass(getActivity(), TestActivity.class);
         intent.putExtra("test", history.getTest());
         startActivityForResult(intent, TestActivity.RESULT_CODE);
+        EasyTracker.getInstance(getActivity()).send(
+                MapBuilder.createEvent("history", "test", history.getTest().getTitle(), null).build());
     }
 }
