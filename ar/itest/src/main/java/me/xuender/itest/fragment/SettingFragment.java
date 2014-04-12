@@ -7,8 +7,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.util.Log;
 
 import me.xuender.itest.R;
+import me.xuender.itest.TestApplication;
 
 /**
  * 设置片段
@@ -19,6 +21,7 @@ public class SettingFragment extends PreferenceFragment implements
         Preference.OnPreferenceClickListener {
     private Preference clean;
     private Preference star;
+    private TestApplication testApplication;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class SettingFragment extends PreferenceFragment implements
         clean.setOnPreferenceClickListener(this);
         star = findPreference("star");
         star.setOnPreferenceClickListener(this);
+        testApplication = (TestApplication) getActivity().getApplication();
     }
 
     @Override
@@ -39,7 +43,7 @@ public class SettingFragment extends PreferenceFragment implements
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            ((OnHistory) getActivity()).clean();
+                            testApplication.getOnHistory().clean();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null).show();
@@ -51,7 +55,7 @@ public class SettingFragment extends PreferenceFragment implements
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            ((OnStar) getActivity()).zero();
+                            testApplication.getOnStar().zero();
                         }
                     })
                     .setNegativeButton(android.R.string.no, null).show();

@@ -17,6 +17,7 @@ public class SettingActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingFragment()).commit();
+
     }
 
     @Override

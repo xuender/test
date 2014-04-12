@@ -1,4 +1,6 @@
 apply plugin: 'android'
+apply plugin: 'findbugs'
+import org.apache.tools.ant.filters.ReplaceTokens
 
 android {
     compileSdkVersion 19
@@ -6,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 3
-        versionName "1.2"
+        versionCode 5
+        versionName "1.G.4"
     }
     signingConfigs {
         release {
@@ -21,13 +23,16 @@ android {
         release {
             signingConfig signingConfigs.release
         }
+
+        lintOptions {
+            abortOnError false
+        }
+
     }
-
-}
-
-dependencies {
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.google.android.gms:play-services:+'
-//    compile 'com.google.apis:google-api-services-analytics:v3-rev88-1.18.0-rc'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    dependencies {
+        compile 'com.android.support:appcompat-v7:19.+'
+        compile 'com.google.android.gms:play-services:+'
+        //    compile 'com.google.apis:google-api-services-analytics:v3-rev88-1.18.0-rc'
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+    }
 }

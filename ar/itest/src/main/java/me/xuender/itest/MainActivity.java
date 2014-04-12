@@ -60,6 +60,9 @@ public class MainActivity extends ActionBarActivity
         声音初始化();
         滑动初始化();
         actionBar.setDisplayShowTitleEnabled(true);
+        TestApplication ta = (TestApplication) getApplication();
+        ta.setOnHistory(this);
+        ta.setOnStar(this);
     }
 
     @Override
