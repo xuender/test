@@ -73,14 +73,16 @@ public class TestListFragment extends AbstractFragment {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ITest test = tests.get(position);
-        if (((OnStar) getActivity()).star() >= test.getStar()) {
+        OnStar onStar = (OnStar) getActivity();
+        if (onStar.star() >= test.getStar()) {
             Log.d("打开测试", test.getTitle());
             Intent intent = new Intent();
             intent.setClass(getActivity(), TestActivity.class);
             intent.putExtra("test", test);
             startActivityForResult(intent, TestActivity.RESULT_CODE);
         } else {
-            Toast.makeText(getActivity(), "星星数量不够，不能测试",
+            Toast.makeText(getActivity(), "需要 " + test.getStar() + " 颗星，只有 "
+                            + onStar.star() + " 颗，数量不够，不能测试",
                     Toast.LENGTH_SHORT).show();
         }
     }

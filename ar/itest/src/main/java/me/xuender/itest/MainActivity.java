@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,20 +43,20 @@ public class MainActivity extends ActionBarActivity
     private List<ButtonItem> buttons = new ArrayList<ButtonItem>();
     private SharedPreferences testSp;
     private Set<Integer> stars = new HashSet<Integer>();
-    private TextView starView;
     private SoundPool soundPool;
     private SharedPreferences prefs;
     private PagerAdapter pagerAdapter;
     private ViewPager viewPager;
     private ActionBar actionBar;
+    private MenuItem star;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         数据初始化();
-        starView = (TextView) findViewById(R.id.star);
-        starView.setText(String.valueOf(stars.size()));
+//TODO        starView = (TextView) findViewById(R.id.star);
+//        starView.setText(String.valueOf(stars.size()));
         声音初始化();
         滑动初始化();
         actionBar.setDisplayShowTitleEnabled(true);
@@ -63,15 +64,24 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        intent.setClass(this, SettingActivity.class);
-        startActivity(intent);
+        switch (item.getItemId()) {
+            case R.id.star:
+                Toast.makeText(this, "当前共有" + stars.size() + "颗星", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting:
+                Intent intent = new Intent();
+                intent.setClass(this, SettingActivity.class);
+                startActivity(intent);
+                break;
+        }
         return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        star = menu.getItem(0);
+        star.setTitle(String.valueOf(stars.size()));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -150,7 +160,7 @@ public class MainActivity extends ActionBarActivity
             Log.d("保存", ja.toString());
             editor.putString("testNums", ja.toString());
             editor.commit();
-            starView.setText(String.valueOf(stars.size()));
+            star.setTitle(String.valueOf(stars.size()));
             Toast.makeText(this, "获得一个星星", Toast.LENGTH_SHORT).show();
             if (prefs.getBoolean("sound", true)) {
                 soundPool.play(1, 1, 1, 0, 0, 1);
@@ -178,7 +188,7 @@ public class MainActivity extends ActionBarActivity
         SharedPreferences.Editor editor = testSp.edit();
         editor.putString("testNums", "[]");
         editor.commit();
-        starView.setText(String.valueOf(stars.size()));
+        star.setTitle(String.valueOf(stars.size()));
         Toast.makeText(this, "星星数量清零", Toast.LENGTH_SHORT).show();
         for (ButtonItem bi : buttons) {
             if (bi.getFragment() instanceof TestListFragment) {
