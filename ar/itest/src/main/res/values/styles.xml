@@ -5,17 +5,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="SelectedText">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/底选文</item>
-    </style>
-
-    <style name="UnSelectedText">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/底待文</item>
-    </style>
-
     <style name="testTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/title</item>
@@ -37,18 +26,15 @@
     </style>
     <!-- http://www.peise.net/tools/web/ -->
     <!-- 上右下 -->
-    <color name="title">#5D016D</color>
+    <color name="title">#FF8B40</color>
     <color name="titleOff">#ffb0b3a5</color>
     <color name="content">#000000</color>
-    <!-- 上左下 -->
-    <color name="summary">#C262D3</color>
+    <!-- 上右上 -->
+    <color name="summary">#BF6830</color>
     <!-- 上左下 -->
     <color name="backgroundColor">#FFFFFF</color>
     <!-- 上左上 -->
     <!--<color name="list">#C437D3</color>-->
-    <!-- 上右上 -->
-    <color name="底选文">#74217D</color>
-    <color name="底待文">#000000</color>
     <!-- 下 -->
-    <color name="button">#DCF900</color>
+    <color name="button">#00A383</color>
 </resources>

@@ -19,6 +19,13 @@
         android:gravity="right"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@android:drawable/btn_star_big_off" />
+
         <TextView
             android:id="@+id/star"
             style="@style/testSummary"
@@ -26,12 +33,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="0" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@android:drawable/btn_star_big_off" />
     </LinearLayout>
 </LinearLayout>
