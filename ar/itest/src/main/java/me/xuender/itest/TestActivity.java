@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -49,6 +50,7 @@ public class TestActivity extends Activity {
         setContentView(R.layout.activity_test);
         init();
         initListener();
+
         readItem(test);
     }
 
@@ -105,21 +107,36 @@ public class TestActivity extends Activity {
         context = (TextView) findViewById(R.id.content);
         summary = (TextView) findViewById(R.id.summary);
         answers = (ListView) findViewById(R.id.answers);
+        request = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+                .build();
         adView = (AdView) findViewById(R.id.adView);
+        //adView.setVisibility(View.GONE);
+//        adView.setAdUnitId("a15349041ec2786");
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdOpened() {
+                Log.d("广告", "收到广告");
+                //adView.setVisibility(View.VISIBLE);
+                EasyTracker.getInstance(getParent()).send(
+                        MapBuilder.createEvent("ad", "ok", "ok", null).build());
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.d("广告异常", "" + errorCode);
+                //adView.setVisibility(View.GONE);
+                EasyTracker.getInstance(getParent()).send(
+                        MapBuilder.createEvent("ad", "error", "code_" + errorCode, null).build());
+            }
+        });
+        adView.loadAd(request);
         run = (Button) findViewById(R.id.run);
         close = (Button) findViewById(R.id.close);
         answerAdapter = new AnswerAdapter(this);
         answers.setAdapter(answerAdapter);
         this.setTitle(test.getTitle());
-    }
-
-    private void loadAd() {
-        if (request == null) {
-            request = new AdRequest.Builder().addKeyword("爱情").addKeyword("礼物").addKeyword("裙子")
-                    .addKeyword("鞋子").setGender(AdRequest.GENDER_FEMALE)
-                    .build();
-            adView.loadAd(request);
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -144,7 +161,7 @@ public class TestActivity extends Activity {
             answerAdapter.clear();
             answerAdapter.addAll(question.getAnswers());
             Log.d("答案数量", String.valueOf(answerAdapter.getCount()));
-            loadAd();
+//            adView.loadAd(request);
         }
         if (item instanceof Conclusion) {
             context.setVisibility(View.VISIBLE);

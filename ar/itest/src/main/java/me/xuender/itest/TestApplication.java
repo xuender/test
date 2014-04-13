@@ -2,6 +2,8 @@ package me.xuender.itest;
 
 import android.app.Application;
 
+import com.google.android.gms.ads.AdRequest;
+
 import me.xuender.itest.fragment.OnHistory;
 import me.xuender.itest.fragment.OnStar;
 
@@ -11,6 +13,11 @@ import me.xuender.itest.fragment.OnStar;
 public class TestApplication extends Application {
     private OnHistory onHistory;
     private OnStar onStar;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     public OnHistory getOnHistory() {
         return onHistory;
